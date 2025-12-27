@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools>=65.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bizmetrics-cli"
+version = "0.1.0"
+authors = [
+    {name = "Gabriel Sbrana", email = "gabrielsbrana@gmail.com"},
+]
+description = "A professional CLI for business intelligence metrics analysis and reporting"
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["business-intelligence", "metrics", "analytics", "cli", "reporting"]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Spreadsheet",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Typing :: Typed",
+]
+dependencies = [
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "httpx>=0.25.0",
+    "pandas>=2.0.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "openpyxl>=3.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+    "pre-commit>=3.0.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+    "mkdocstrings[python]>=0.23.0",
+]
+
+[project.scripts]
+bizmetrics = "bizmetrics.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/gabrielsbrana/bizmetrics-cli"
+Repository = "https://github.com/gabrielsbrana/bizmetrics-cli"
+Issues = "https://github.com/gabrielsbrana/bizmetrics-cli/issues"
+
+[tool.setuptools]
+packages = ["bizmetrics"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+]
+ignore = [
+    "E501",   # line too long
+    "ARG002", # unused method argument (intentional for interface consistency)
+    "B008",   # function call in default argument (Typer pattern)
+    "SIM103", # return condition directly
+    "SIM108", # use ternary operator
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["bizmetrics"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --cov=bizmetrics --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["bizmetrics"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
